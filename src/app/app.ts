@@ -1,12 +1,10 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { ContentAnalyzerComponent } from './features/content-analyzer/content-analyzer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ContentAnalyzerComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
-  protected readonly title = signal('mobde3-frontend');
-}
+export class App {}

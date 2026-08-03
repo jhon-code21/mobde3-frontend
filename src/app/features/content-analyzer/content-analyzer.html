@@ -1,0 +1,60 @@
+<div class="analyzer-container">
+  <h1>Analyse de contenu</h1>
+
+  <div class="input-section">
+    <select [(ngModel)]="contentType">
+      <option value="linkedin">LinkedIn</option>
+      <option value="facebook">Facebook</option>
+      <option value="email">Email</option>
+      <option value="generic">Générique</option>
+    </select>
+
+    <textarea
+      [(ngModel)]="text"
+      placeholder="Collez ou saisissez votre contenu ici..."
+      rows="8">
+    </textarea>
+
+    <button (click)="onAnalyze()" [disabled]="loading">
+      {{ loading ? 'Analyse en cours...' : 'Analyser' }}
+    </button>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+  </div>
+
+  <div class="results-section" *ngIf="result">
+    <h2>Score global : {{ result.globalScore }}/100</h2>
+
+    <div class="criteria">
+      <div *ngFor="let c of result.criteria" class="criterion">
+        <span>{{ c.name }}</span>
+        <div class="bar">
+          <div class="fill" [style.width.%]="c.score"></div>
+        </div>
+        <span>{{ c.score }}/100</span>
+      </div>
+    </div>
+
+    <div class="strengths-weaknesses">
+      <div class="strengths">
+        <h3>Points forts</h3>
+        <ul>
+          <li *ngFor="let s of result.strengths">{{ s }}</li>
+        </ul>
+      </div>
+      <div class="weaknesses">
+        <h3>Points faibles</h3>
+        <ul>
+          <li *ngFor="let w of result.weaknesses">{{ w }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="recommendations">
+      <h3>Recommandations</h3>
+      <ul>
+        <li *ngFor="let r of result.recommendations">{{ r }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
