@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { AnalysisService } from '../../services/analysis';
+import { AuthService } from '../../services/auth';
 import { AnalysisResult } from '../../models/analysis-result';
 
 @Component({
@@ -18,8 +20,16 @@ export class ContentAnalyzerComponent {
   loading: boolean = false;
   error: string = '';
 
-  constructor(private analysisService: AnalysisService) {}
+  constructor(
+    private analysisService: AnalysisService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
+get userName(): string {
+  const user = this.authService.getUser();
+  return user ? `${user.firstName} ${user.lastName}` : '';
+}
   onAnalyze() {
     if (!this.text.trim()) {
       this.error = 'Le texte est requis';
@@ -41,5 +51,10 @@ export class ContentAnalyzerComponent {
         console.error(err);
       }
     });
+  }
+
+  onLogout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

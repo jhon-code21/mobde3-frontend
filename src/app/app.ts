@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ContentAnalyzerComponent } from './features/content-analyzer/content-analyzer';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [ContentAnalyzerComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

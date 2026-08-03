@@ -1,0 +1,18 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Connexion</h2>
+
+    <input type="email" [(ngModel)]="email" placeholder="Email" />
+    <input type="password" [(ngModel)]="password" placeholder="Mot de passe" />
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <button (click)="onLogin()" [disabled]="loading">
+      {{ loading ? 'Connexion...' : 'Se connecter' }}
+    </button>
+
+    <p class="switch-link">
+      Pas de compte ? <a routerLink="/signup">Créer un compte</a>
+    </p>
+  </div>
+</div>
