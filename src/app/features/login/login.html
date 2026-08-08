@@ -10,6 +10,9 @@
     <button (click)="onLogin()" [disabled]="loading">
       {{ loading ? 'Connexion...' : 'Se connecter' }}
     </button>
+    <p class="switch-link">
+  <a routerLink="/forgot-password">Mot de passe oublié ?</a>
+</p>
 
     <p class="switch-link">
       Pas de compte ? <a routerLink="/signup">Créer un compte</a>

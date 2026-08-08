@@ -1,12 +1,12 @@
 <div class="analyzer-container">
-  <div class="header">
-    <h1>Analyse de contenu</h1>
-    <div class="user-info">
-      <span>{{ userName }}</span>
-      <button (click)="onLogout()">Déconnexion</button>
-    </div>
+ <div class="header">
+  <h1>Analyse de contenu</h1>
+  <div class="user-info">
+    <span>{{ userName }}</span>
+    <a routerLink="/history">Historique</a>
+    <button (click)="onLogout()">Déconnexion</button>
   </div>
-
+</div>
   <div class="input-section">
     <select [(ngModel)]="contentType">
       <option value="linkedin">LinkedIn</option>

@@ -1,0 +1,26 @@
+<div class="history-container">
+  <div class="header">
+    <h1>Historique des analyses</h1>
+    <a routerLink="/">← Retour</a>
+  </div>
+
+  <p *ngIf="loading">Chargement...</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
+  <p *ngIf="!loading && items.length === 0">Aucune analyse pour le moment.</p>
+
+  <div class="history-item" *ngFor="let item of items">
+    <div class="item-header">
+      <span class="type">{{ item.contentType }}</span>
+      <span class="score">{{ item.globalScore }}/100</span>
+      <span class="date">{{ item.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+      <button (click)="onDelete(item.id)">Supprimer</button>
+    </div>
+    <p class="content">{{ item.originalContent }}</p>
+    <div class="recommendations" *ngIf="item.recommendations.length > 0">
+      <strong>Recommandations :</strong>
+      <ul>
+        <li *ngFor="let r of item.recommendations">{{ r }}</li>
+      </ul>
+    </div>
+  </div>
+</div>

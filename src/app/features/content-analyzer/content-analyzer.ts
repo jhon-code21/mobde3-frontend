@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AnalysisService } from '../../services/analysis';
 import { AuthService } from '../../services/auth';
 import { AnalysisResult } from '../../models/analysis-result';
 
+
 @Component({
   selector: 'app-content-analyzer',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+ imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './content-analyzer.html',
   styleUrl: './content-analyzer.scss'
 })

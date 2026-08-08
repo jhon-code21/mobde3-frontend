@@ -43,4 +43,11 @@ signup(email: string, password: string, firstName: string, lastName: string): Ob
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+  forgotPassword(email: string): Observable<{ message: string }> {
+  return this.http.post<{ message: string }>(`${this.apiUrl}/forgot-password`, { email });
+}
+
+resetPassword(token: string, newPassword: string): Observable<{ message: string }> {
+  return this.http.post<{ message: string }>(`${this.apiUrl}/reset-password`, { token, newPassword });
+}
 }
