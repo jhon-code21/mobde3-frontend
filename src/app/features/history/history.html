@@ -1,26 +1,115 @@
-<div class="history-container">
-  <div class="header">
-    <h1>Historique des analyses</h1>
-    <a routerLink="/">← Retour</a>
+<div class="history-page">
+
+  <!-- ══ NAVBAR ══ -->
+  <nav class="navbar">
+    <a routerLink="/" class="navbar-brand">
+      <svg class="brand-logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="mobde3LogoGradHist" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4f46e5"/>
+            <stop offset="50%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#0284c7"/>
+          </linearGradient>
+        </defs>
+        <path d="M20 2L35 10.5V29.5L20 38L5 29.5V10.5L20 2Z" fill="url(#mobde3LogoGradHist)"/>
+        <path d="M20 5.5L32 12V28L20 34.5L8 28V12L20 5.5Z" fill="#ffffff" opacity="0.2"/>
+        <path d="M11 27V13L20 21L29 13V27" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="20" cy="21" r="1.8" fill="#38bdf8"/>
+      </svg>
+      <span class="brand-name">Mobde3</span>
+    </a>
+    <div class="navbar-actions">
+      <app-language-selector></app-language-selector>
+
+      <a routerLink="/" class="nav-btn nav-btn--ghost">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        {{ 'nav_back_analyzer' | translate }}
+      </a>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <div class="page-hero">
+    <p class="hero-eyebrow">{{ 'history_hero_eyebrow' | translate }}</p>
+    <h1 class="hero-title">{{ 'history_hero_title' | translate }}</h1>
+    <p class="hero-sub">{{ 'history_hero_sub' | translate }}</p>
   </div>
 
-  <p *ngIf="loading">Chargement...</p>
-  <p class="error" *ngIf="error">{{ error }}</p>
-  <p *ngIf="!loading && items.length === 0">Aucune analyse pour le moment.</p>
+  <!-- ══ CONTENT ══ -->
+  <div class="history-content">
 
-  <div class="history-item" *ngFor="let item of items">
-    <div class="item-header">
-      <span class="type">{{ item.contentType }}</span>
-      <span class="score">{{ item.globalScore }}/100</span>
-      <span class="date">{{ item.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
-      <button (click)="onDelete(item.id)">Supprimer</button>
+    <!-- Loading skeleton -->
+    <div class="skeleton-list" *ngIf="loading">
+      <div class="skeleton-card" *ngFor="let i of [1,2,3]">
+        <div class="skeleton-line skeleton-line--short"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line skeleton-line--med"></div>
+      </div>
     </div>
-    <p class="content">{{ item.originalContent }}</p>
-    <div class="recommendations" *ngIf="item.recommendations.length > 0">
-      <strong>Recommandations :</strong>
-      <ul>
-        <li *ngFor="let r of item.recommendations">{{ r }}</li>
-      </ul>
+
+    <!-- Error -->
+    <div class="alert alert--error" *ngIf="error">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      {{ error }}
     </div>
-  </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="!loading && !error && items.length === 0">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11H5a2 2 0 0 0-2 2v3"/><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><polyline points="9 11 12 14 22 4"/></svg>
+      </div>
+      <p class="empty-title">{{ 'history_empty_title' | translate }}</p>
+      <p class="empty-sub">{{ 'history_empty_sub' | translate }}</p>
+      <a routerLink="/" class="btn-primary-link">{{ 'history_btn_new' | translate }}</a>
+    </div>
+
+    <!-- History cards -->
+    <div class="history-grid" *ngIf="!loading && items.length > 0">
+      <div class="hcard" *ngFor="let item of items">
+
+        <!-- Card header -->
+        <div class="hcard-header">
+          <div class="hcard-meta">
+            <span class="platform-badge platform-badge--{{ item.contentType }}">
+              {{ item.contentType | titlecase }}
+            </span>
+            <span class="hcard-date">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              {{ item.createdAt | date:'dd MMM yyyy · HH:mm' }}
+            </span>
+          </div>
+          <div class="hcard-score-wrap">
+            <div class="hcard-score"
+              [class.score--high]="item.globalScore >= 75"
+              [class.score--mid]="item.globalScore >= 50 && item.globalScore < 75"
+              [class.score--low]="item.globalScore < 50">
+              <span class="score-num">{{ item.globalScore }}</span>
+              <span class="score-denom">/100</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Original content preview -->
+        <p class="hcard-excerpt">{{ item.originalContent }}</p>
+
+        <!-- Recommendations -->
+        <div class="hcard-reco" *ngIf="item.recommendations && item.recommendations.length > 0">
+          <p class="hcard-reco-title">{{ 'history_applied_tips' | translate }}</p>
+          <ul class="hcard-reco-list">
+            <li *ngFor="let r of item.recommendations">{{ r }}</li>
+          </ul>
+        </div>
+
+        <!-- Footer actions -->
+        <div class="hcard-footer">
+          <button class="btn-delete" (click)="onDelete(item.id)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            {{ 'btn_delete' | translate }}
+          </button>
+        </div>
+
+      </div><!-- /hcard -->
+    </div><!-- /history-grid -->
+
+  </div><!-- /history-content -->
 </div>

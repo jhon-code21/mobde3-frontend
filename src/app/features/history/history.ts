@@ -4,10 +4,13 @@ import { RouterLink } from '@angular/router';
 import { AnalysisService } from '../../services/analysis';
 import { HistoryItem } from '../../models/history';
 
+import { TranslatePipe } from '../../pipes/translate';
+import { LanguageSelectorComponent } from '../../components/language-selector/language-selector';
+
 @Component({
   selector: 'app-history',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslatePipe, LanguageSelectorComponent],
   templateUrl: './history.html',
   styleUrl: './history.scss'
 })

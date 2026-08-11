@@ -21,6 +21,11 @@ signup(email: string, password: string, firstName: string, lastName: string): Ob
       .pipe(tap(res => this.saveSession(res)));
   }
 
+  googleLogin(credential: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/google`, { credential })
+      .pipe(tap(res => this.saveSession(res)));
+  }
+
   private saveSession(res: AuthResponse) {
     localStorage.setItem('token', res.token);
     localStorage.setItem('user', JSON.stringify(res.user));

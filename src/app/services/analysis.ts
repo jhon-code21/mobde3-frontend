@@ -12,18 +12,19 @@ export class AnalysisService {
 
   constructor(private http: HttpClient) {}
 
-  analyzeContent(text: string, type: string): Observable<AnalysisResult> {
-    return this.http.post<AnalysisResult>(`${this.apiUrl}/analyze`, { text, type });
+  analyzeContent(text: string, type: string, lang: string = 'fr'): Observable<AnalysisResult> {
+    return this.http.post<AnalysisResult>(`${this.apiUrl}/analyze`, { text, type, lang });
   }
 
-  improveContent(text: string, recommendations: string[]): Observable<{ improvedText: string }> {
-    return this.http.post<{ improvedText: string }>(`${this.apiUrl}/improve`, { text, recommendations });
+  improveContent(text: string, recommendations: string[], lang: string = 'fr'): Observable<{ improvedText: string }> {
+    return this.http.post<{ improvedText: string }>(`${this.apiUrl}/improve`, { text, recommendations, lang });
   }
+
   getHistory(): Observable<HistoryItem[]> {
-  return this.http.get<HistoryItem[]>('http://localhost:3000/api/history');
-}
+    return this.http.get<HistoryItem[]>(`${this.apiUrl}/history`);
+  }
 
-deleteHistoryItem(id: number): Observable<{ message: string }> {
-  return this.http.delete<{ message: string }>(`http://localhost:3000/api/history/${id}`);
-}
+  deleteHistoryItem(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/history/${id}`);
+  }
 }
