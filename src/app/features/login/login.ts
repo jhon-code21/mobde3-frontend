@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   googleLoading: boolean = false;
 
   // Google Client ID
-  private readonly GOOGLE_CLIENT_ID = '117940223035-0gg6emst999s8m12mkqi276n0n93v8o2.apps.googleusercontent.com';
+ private readonly GOOGLE_CLIENT_ID = '289907519997-rgj94rfgjrk6jcnj3r512174ratll2ct.apps.googleusercontent.com';
 
   constructor(
     private authService: AuthService,
